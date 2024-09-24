@@ -6,9 +6,12 @@ import 'package:waste_exchange/domain/usecases/get_logged_in_user/get_logged_in_
 import 'package:waste_exchange/domain/usecases/login/login.dart';
 import 'package:waste_exchange/domain/usecases/login/login_params.dart';
 import 'package:waste_exchange/domain/usecases/logout/logout.dart';
+import 'package:waste_exchange/domain/usecases/register/register.dart';
+import 'package:waste_exchange/domain/usecases/register/register_params.dart';
 import 'package:waste_exchange/presentation/providers/usecases/get_presence_detail_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/login_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/logout_provider.dart';
+import 'package:waste_exchange/presentation/providers/usecases/register_provider.dart';
 
 part 'user_data_provider.g.dart';
 
@@ -34,6 +37,22 @@ class UserData extends _$UserData {
     Login login = ref.read(loginProvider);
 
     var result = await login(LoginParams(email: email, password: password));
+
+    switch (result) {
+      case Success(value: final user):
+        state = AsyncData(user);
+      case Failed(:final message):
+        state = AsyncError(FlutterError(message), StackTrace.current);
+        state = const AsyncData(null);
+    }
+  }
+
+  Future<void> register({required RegisterParams params}) async {
+    state = const AsyncLoading();
+
+    Register register = ref.read(registerProvider);
+
+    var result = await register(params);
 
     switch (result) {
       case Success(value: final user):

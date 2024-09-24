@@ -9,6 +9,8 @@ class CustomTextField extends StatefulWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final Widget? suffixIcon;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
 
   const CustomTextField({
     super.key,
@@ -17,6 +19,8 @@ class CustomTextField extends StatefulWidget {
     this.obscureText = false,
     this.controller,
     this.suffixIcon,
+    this.keyboardType,
+    this.textInputAction,
   });
 
   @override
@@ -43,7 +47,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(left: 14, right: 14, top: 4),
-      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -53,6 +56,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         controller: widget.controller,
         obscureText: _obscureText,
         style: Typogaphy.Regular,
+        keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction,
         maxLines: 1,
         decoration: InputDecoration(
           labelText: widget.label,

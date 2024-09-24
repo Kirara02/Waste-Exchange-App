@@ -21,6 +21,7 @@ class DummyAuthRepository implements AuthRepository {
 
   @override
   Future<bool> getLoggedInUser() async {
+    Future.delayed(const Duration(seconds: 2));
     var result = await TokenHelper().getLoginStatus();
     return result;
   }
