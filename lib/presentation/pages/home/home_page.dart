@@ -5,6 +5,7 @@ import 'package:waste_exchange/presentation/extensions/double_extension.dart';
 import 'package:waste_exchange/presentation/misc/colors.dart';
 import 'package:waste_exchange/presentation/misc/screen.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
+import 'package:waste_exchange/presentation/providers/user_data/user_data_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -36,7 +37,7 @@ class HomePage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "Hello,\nKirara Bernstein",
+                      "Hello,\n${ref.read(userDataProvider).valueOrNull?.name}",
                       style: Typogaphy.SemiBold.copyWith(color: Colors.white),
                     )
                   ],

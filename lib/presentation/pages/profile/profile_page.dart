@@ -69,7 +69,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  "Kirara Bernstein",
+                  "${ref.read(userDataProvider).valueOrNull?.name}",
                   style: Typogaphy.SemiBold.copyWith(
                     fontSize: 16,
                     color: Colors.white,
@@ -89,12 +89,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ProfileItem(
                           title: "Update Profile",
                           iconPath: "assets/icons/profile.svg",
-                          onPressed: () {},
+                          onPressed: () => ref.read(routerProvider).push(Routes.UPDATE_POFILE),
                         ),
                         ProfileItem(
                           title: "Change Password",
                           iconPath: "assets/icons/lock.svg",
-                          onPressed: () {},
+                          onPressed: () => ref.read(routerProvider).push(Routes.CHANGE_PASSWORD),
                         ),
                         ProfileItem(
                           title: "Terms & Condition",

@@ -19,6 +19,14 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,79 +79,102 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             width: MediaQuery.of(context).size.width,
             color: Colors.white,
             padding: const EdgeInsets.only(left: 20, right: 20, top: 36, bottom: 36),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 24),
-                  child: Text(
-                    'Log in',
-                    style: Typogaphy.SemiBold.copyWith(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                CustomTextField(
-                  label: "Email",
-                  hintText: "youremail@email.com",
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
-                  label: "Password",
-                  hintText: "*************",
-                  obscureText: true,
-                  controller: passwordController,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => ref.watch(routerProvider).push(Routes.FORGOT_PASSWORD),
-                    child: const Text("Forgot your password?"),
-                  ),
-                ),
-                switch (ref.watch(userDataProvider)) {
-                  AsyncData(:final value) => value == null
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: CustomButton(
-                            onPressed: () async {
-                              ref
-                                  .read(userDataProvider.notifier)
-                                  .login(email: emailController.text, password: passwordController.text);
-                            },
-                            title: 'Login',
-                          ),
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                  _ => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                },
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account? "),
-                    TextButton(
-                      onPressed: () {
-                        ref.read(routerProvider).push(Routes.REGISTER);
-                      },
-                      child: Text(
-                        'Register here',
-                        style: Typogaphy.SemiBold,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: Text(
+                      'Log in',
+                      style: Typogaphy.SemiBold.copyWith(
+                        fontSize: 18,
                       ),
                     ),
-                  ],
-                )
-              ],
+                  ),
+                  CustomTextField(
+                    label: "Email",
+                    hintText: "youremail@email.com",
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      const emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                      final regExp = RegExp(emailPattern);
+                      if (!regExp.hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  CustomTextField(
+                    label: "Password",
+                    hintText: "*************",
+                    obscureText: true,
+                    controller: passwordController,
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => ref.watch(routerProvider).push(Routes.FORGOT_PASSWORD),
+                      child: const Text("Forgot your password?"),
+                    ),
+                  ),
+                  switch (ref.watch(userDataProvider)) {
+                    AsyncData(:final value) => value == null
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: CustomButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  ref.read(userDataProvider.notifier).login(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                      );
+                                }
+                              },
+                              title: 'Login',
+                            ),
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                    _ => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                  },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account? "),
+                      TextButton(
+                        onPressed: () {
+                          ref.read(routerProvider).push(Routes.REGISTER);
+                        },
+                        child: Text(
+                          'Register here',
+                          style: Typogaphy.SemiBold,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ],

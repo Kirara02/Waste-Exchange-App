@@ -11,6 +11,9 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final String? Function(String?)? validator;
+  final bool readOnly;
+  final void Function(String)? onFieldSubmitted;
 
   const CustomTextField({
     super.key,
@@ -21,6 +24,9 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.keyboardType,
     this.textInputAction,
+    this.validator,
+    this.readOnly = false,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -52,13 +58,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(width: 1, color: AppColors.secondaryExtraSoft),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: widget.controller,
         obscureText: _obscureText,
+        readOnly: widget.readOnly,
         style: Typogaphy.Regular,
         keyboardType: widget.keyboardType,
-        textInputAction: widget.textInputAction,
+        textInputAction: widget.textInputAction ?? TextInputAction.done,
         maxLines: 1,
+        validator: widget.validator,
+        onFieldSubmitted: widget.onFieldSubmitted,
         decoration: InputDecoration(
           labelText: widget.label,
           labelStyle: Typogaphy.Regular.copyWith(

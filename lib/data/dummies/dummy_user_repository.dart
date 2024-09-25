@@ -6,6 +6,6 @@ class DummyUserRepository implements UserRepository {
   @override
   Future<Result<User>> getUser() async {
     await Future.delayed(const Duration(seconds: 1));
-    return Result.success(User(id: 1, name: 'Kirara Bernstein', email: 'kirara@gmail.com'));
+    return Result.success(User(id: 1, name: 'Kirara Bernstein', email: 'kirara@gmail.com', phone: "081313320710"));
   }
 }

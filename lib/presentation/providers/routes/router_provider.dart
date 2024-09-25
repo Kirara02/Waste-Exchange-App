@@ -2,6 +2,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waste_exchange/presentation/misc/app_routes.dart';
 import 'package:waste_exchange/presentation/pages/about/about_page.dart';
+import 'package:waste_exchange/presentation/pages/change_password/change_password_page.dart';
+import 'package:waste_exchange/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:waste_exchange/presentation/pages/login/login_page.dart';
 import 'package:waste_exchange/presentation/pages/main/main_page.dart';
 import 'package:waste_exchange/presentation/pages/register/register_page.dart';
@@ -45,6 +47,20 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "about",
           builder: (context, state) {
             return const AboutPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.UPDATE_POFILE,
+          name: "update-profile",
+          builder: (context, state) {
+            return const EditProfilePage();
+          },
+        ),
+        GoRoute(
+          path: Routes.CHANGE_PASSWORD,
+          name: "change-password",
+          builder: (context, state) {
+            return const ChangePasswordPage();
           },
         ),
       ],

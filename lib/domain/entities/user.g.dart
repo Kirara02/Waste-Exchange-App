@@ -10,6 +10,8 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       email: json['email'] as String,
+      phone: json['phone'] as String,
+      profileUrl: json['profileUrl'] as String?,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -17,4 +19,6 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'email': instance.email,
+      'phone': instance.phone,
+      'profileUrl': instance.profileUrl,
     };
