@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:waste_exchange/presentation/misc/app_routes.dart';
+import 'package:waste_exchange/presentation/pages/about/about_page.dart';
 import 'package:waste_exchange/presentation/pages/login/login_page.dart';
 import 'package:waste_exchange/presentation/pages/main/main_page.dart';
 import 'package:waste_exchange/presentation/pages/register/register_page.dart';
@@ -37,6 +38,13 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "main",
           builder: (context, state) {
             return const MainPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.ABOUT,
+          name: "about",
+          builder: (context, state) {
+            return const AboutPage();
           },
         ),
       ],

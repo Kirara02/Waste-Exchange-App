@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_exchange/presentation/misc/colors.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
 import 'package:waste_exchange/presentation/providers/routes/router_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const ProviderScope(child: MainApp()));
 }
 
@@ -20,7 +22,7 @@ class MainApp extends ConsumerWidget {
       routeInformationProvider: ref.watch(routerProvider).routeInformationProvider,
       routerDelegate: ref.watch(routerProvider).routerDelegate,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: AppColors.secondaryExtraSoft,
         fontFamily: "Poppins",
         useMaterial3: true,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -28,9 +30,13 @@ class MainApp extends ConsumerWidget {
           color: Colors.white,
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.primarySoft,
         ),
         appBarTheme: AppBarTheme(
+          // systemOverlayStyle: const SystemUiOverlayStyle(
+          //   systemNavigationBarColor: Colors.blue, // Navigation bar
+          //   statusBarColor: Colors.pink, // Status bar
+          // ),
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,

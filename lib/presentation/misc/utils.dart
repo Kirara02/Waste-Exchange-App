@@ -5,3 +5,4 @@ printIfDebug(data) {
     print(data);
   }
 }
+

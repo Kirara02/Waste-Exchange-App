@@ -10,6 +10,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const UPDATE_POFILE = _Paths.UPDATE_POFILE;
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
+  static const ABOUT = _Paths.ABOUT;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const UPDATE_POFILE = '/update-pofile';
   static const CHANGE_PASSWORD = '/change-password';
+  static const ABOUT = '/about';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_exchange/domain/usecases/register/register_params.dart';
+import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/misc/colors.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
 import 'package:waste_exchange/presentation/providers/routes/router_provider.dart';
@@ -20,7 +21,7 @@ class _SigninPageState extends ConsumerState<RegisterPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController passwordConfirmController = TextEditingController();
+  final TextEditingController retypePasswordController = TextEditingController();
 
   bool _isTermsAccepted = false;
 
@@ -108,10 +109,10 @@ class _SigninPageState extends ConsumerState<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
-                  label: "Password Confirmation",
+                  label: "Retype Password",
                   hintText: "*************",
                   obscureText: true,
-                  controller: passwordConfirmController,
+                  controller: retypePasswordController,
                   keyboardType: TextInputType.visiblePassword,
                   textInputAction: TextInputAction.done,
                 ),
@@ -138,11 +139,15 @@ class _SigninPageState extends ConsumerState<RegisterPage> {
                           child: CustomButton(
                             onPressed: _isTermsAccepted
                                 ? () async {
-                                    ref.read(userDataProvider.notifier).register(
-                                        params: RegisterParams(
-                                            name: nameController.text,
-                                            email: emailController.text,
-                                            password: passwordController.text));
+                                    if (passwordController.text == retypePasswordController.text) {
+                                      ref.read(userDataProvider.notifier).register(
+                                          params: RegisterParams(
+                                              name: nameController.text,
+                                              email: emailController.text,
+                                              password: passwordController.text));
+                                    } else {
+                                      context.showSnackBar("Please retype your password with the same value");
+                                    }
                                   }
                                 : null, // Disable button if checkbox not checked
                             title: 'Register',
