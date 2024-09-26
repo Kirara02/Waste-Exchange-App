@@ -8,6 +8,7 @@ import 'package:waste_exchange/domain/usecases/login/login_params.dart';
 import 'package:waste_exchange/domain/usecases/logout/logout.dart';
 import 'package:waste_exchange/domain/usecases/register/register.dart';
 import 'package:waste_exchange/domain/usecases/register/register_params.dart';
+import 'package:waste_exchange/presentation/providers/history/histories_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/get_presence_detail_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/login_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/logout_provider.dart';
@@ -25,6 +26,7 @@ class UserData extends _$UserData {
 
     switch (userResult) {
       case Success(value: final user):
+        _getHistory();
         return user;
       case Failed(message: _):
         return null;
@@ -41,6 +43,7 @@ class UserData extends _$UserData {
     switch (result) {
       case Success(value: final user):
         state = AsyncData(user);
+        _getHistory();
       case Failed(:final message):
         state = AsyncError(FlutterError(message), StackTrace.current);
         state = const AsyncData(null);
@@ -74,5 +77,9 @@ class UserData extends _$UserData {
         state = AsyncError(FlutterError(message), StackTrace.current);
         state = AsyncData(state.valueOrNull);
     }
+  }
+
+  void _getHistory() {
+    ref.read(historiesProvider.notifier).getHistories();
   }
 }
