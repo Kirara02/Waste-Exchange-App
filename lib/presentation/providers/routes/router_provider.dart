@@ -7,6 +7,7 @@ import 'package:waste_exchange/presentation/pages/edit_profile/edit_profile_page
 import 'package:waste_exchange/presentation/pages/histories/histories_page.dart';
 import 'package:waste_exchange/presentation/pages/login/login_page.dart';
 import 'package:waste_exchange/presentation/pages/main/main_page.dart';
+import 'package:waste_exchange/presentation/pages/pairing/pairing_page.dart';
 import 'package:waste_exchange/presentation/pages/register/register_page.dart';
 import 'package:waste_exchange/presentation/pages/splash/splash_page.dart';
 
@@ -69,6 +70,13 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "histories",
           builder: (context, state) {
             return const HistoriesPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.PAIRING,
+          name: "pairing",
+          builder: (context, state) {
+            return const PairingPage();
           },
         ),
       ],

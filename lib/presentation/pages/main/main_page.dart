@@ -61,7 +61,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         child: FittedBox(
           child: FloatingActionButton(
             shape: const CircleBorder(),
-            onPressed: () {},
+            onPressed: () => ref.read(routerProvider).push(Routes.PAIRING),
             child: SvgPicture.asset(
               "assets/icons/qrcode-scan.svg",
               width: 36,

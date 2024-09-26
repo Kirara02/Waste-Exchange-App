@@ -41,7 +41,7 @@ class MainApp extends ConsumerWidget {
           ),
           backgroundColor: Colors.white,
           elevation: 0,
-          centerTitle: true,
+          centerTitle: false,
           titleTextStyle: Typogaphy.Medium.copyWith(
             color: AppColors.secondary,
             fontSize: 16,

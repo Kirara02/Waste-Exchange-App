@@ -17,7 +17,6 @@ class HistoriesPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Riwayat Penukaran"),
-        centerTitle: false,
       ),
       body: RefreshIndicator(
         onRefresh: () async {
