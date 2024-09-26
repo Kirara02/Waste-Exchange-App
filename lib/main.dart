@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_exchange/presentation/misc/colors.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
@@ -32,10 +33,12 @@ class MainApp extends ConsumerWidget {
           backgroundColor: AppColors.primarySoft,
         ),
         appBarTheme: AppBarTheme(
-          // systemOverlayStyle: const SystemUiOverlayStyle(
-          //   systemNavigationBarColor: Colors.blue, // Navigation bar
-          //   statusBarColor: Colors.pink, // Status bar
-          // ),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.black.withOpacity(0.5), // Set to your desired color
+            systemNavigationBarColor: Colors.black, // Color for the navigation bar
+            systemNavigationBarIconBrightness: Brightness.light, // Icon color
+            statusBarIconBrightness: Brightness.light, // Status bar icon color
+          ),
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,

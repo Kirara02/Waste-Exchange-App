@@ -141,6 +141,7 @@ class HistoriesPage extends ConsumerWidget {
   }
 }
 
+
 class MonthHeaderSkeleton extends StatelessWidget {
   const MonthHeaderSkeleton({super.key});
 
