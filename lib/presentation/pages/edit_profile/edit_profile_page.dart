@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/providers/user_data/user_data_provider.dart';
+import 'package:waste_exchange/presentation/widgets/common/custom_app_bar.dart';
 import 'package:waste_exchange/presentation/widgets/textfield/custom_text_field.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
@@ -54,8 +55,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
+      appBar: CustomAppBar(
+        title: "Update Profile",
         actions: [
           // Toggle Edit Mode Button
           IconButton(

@@ -176,17 +176,17 @@ class HomePage extends ConsumerWidget {
                   FeatureItem(
                     title: "Top Up\nE-wallet",
                     iconPath: "assets/icons/wallet.svg",
-                    onPressed: () {},
+                    onPressed: () => ref.read(routerProvider).push(Routes.EWALLET),
                   ),
                   FeatureItem(
                     title: "Top Up\nPulsa",
                     iconPath: "assets/icons/internet.svg",
-                    onPressed: () {},
+                    onPressed: () => ref.read(routerProvider).push(Routes.CREDIT),
                   ),
                   FeatureItem(
                     title: "Top Up\nData",
                     iconPath: "assets/icons/cellphone.svg",
-                    onPressed: () {},
+                    onPressed: () => ref.read(routerProvider).push(Routes.DATAPLAN),
                   ),
                 ],
               ),

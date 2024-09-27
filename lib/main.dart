@@ -39,7 +39,7 @@ class MainApp extends ConsumerWidget {
             systemNavigationBarIconBrightness: Brightness.light, // Icon color
             statusBarIconBrightness: Brightness.light, // Status bar icon color
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.secondaryExtraSoft,
           elevation: 0,
           centerTitle: false,
           titleTextStyle: Typogaphy.Medium.copyWith(

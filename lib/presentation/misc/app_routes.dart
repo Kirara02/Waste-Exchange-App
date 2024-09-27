@@ -13,6 +13,9 @@ abstract class Routes {
   static const ABOUT = _Paths.ABOUT;
   static const HISTORIES = _Paths.HISTORIES;
   static const PAIRING = _Paths.PAIRING;
+  static const CREDIT = _Paths.CREDIT;
+  static const DATAPLAN = _Paths.DATAPLAN;
+  static const EWALLET = _Paths.EWALLET;
 }
 
 abstract class _Paths {
@@ -31,4 +34,7 @@ abstract class _Paths {
   static const ABOUT = '/about';
   static const HISTORIES = '/histories';
   static const PAIRING = '/pairing';
+  static const CREDIT = '/credit';
+  static const DATAPLAN = '/dataplan';
+  static const EWALLET = '/ewallet';
 }

@@ -136,27 +136,30 @@ class _PairingPageState extends ConsumerState<PairingPage> {
       isDismissible: false, // Disable closing by tapping outside
       enableDrag: false, // Disable swiping to close
       builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          height: 240,
-          width: AppScreens.width,
-          child: Column(
-            children: [
-              Lottie.asset("assets/lotties/success.json", width: 80, repeat: false),
-              const SizedBox(height: 20),
-              Text(
-                qrData ?? 'No data',
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              CustomButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _resumeScanning();
-                },
-                title: 'Close',
-              ),
-            ],
+        return PopScope(
+          canPop: false,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            height: 240,
+            width: AppScreens.width,
+            child: Column(
+              children: [
+                Lottie.asset("assets/lotties/success.json", width: 80, repeat: false),
+                const SizedBox(height: 20),
+                Text(
+                  qrData ?? 'No data',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 20),
+                CustomButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _resumeScanning();
+                  },
+                  title: 'Close',
+                ),
+              ],
+            ),
           ),
         );
       },

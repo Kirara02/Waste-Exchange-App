@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/misc/screen.dart';
 import 'package:waste_exchange/presentation/widgets/button/custom_button.dart';
+import 'package:waste_exchange/presentation/widgets/common/custom_app_bar.dart';
 import 'package:waste_exchange/presentation/widgets/textfield/custom_text_field.dart';
 
 class ChangePasswordPage extends ConsumerStatefulWidget {
@@ -30,8 +31,8 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Change Password'),
+      appBar: const CustomAppBar(
+        title: "Change Password",
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

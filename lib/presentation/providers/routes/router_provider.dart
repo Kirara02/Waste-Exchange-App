@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:waste_exchange/presentation/misc/app_routes.dart';
 import 'package:waste_exchange/presentation/pages/about/about_page.dart';
 import 'package:waste_exchange/presentation/pages/change_password/change_password_page.dart';
+import 'package:waste_exchange/presentation/pages/credit/credit_page.dart';
+import 'package:waste_exchange/presentation/pages/data_plan/data_plan_page.dart';
+import 'package:waste_exchange/presentation/pages/e_wallet/e_wallet_page.dart';
 import 'package:waste_exchange/presentation/pages/edit_profile/edit_profile_page.dart';
 import 'package:waste_exchange/presentation/pages/histories/histories_page.dart';
 import 'package:waste_exchange/presentation/pages/login/login_page.dart';
@@ -77,6 +80,27 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "pairing",
           builder: (context, state) {
             return const PairingPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.EWALLET,
+          name: "ewallet",
+          builder: (context, state) {
+            return const EWalletPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.CREDIT,
+          name: "credit",
+          builder: (context, state) {
+            return const CreditPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.DATAPLAN,
+          name: "dataplan",
+          builder: (context, state) {
+            return const DataPlanPage();
           },
         ),
       ],

@@ -1,24 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'router_provider.dart';
+part of 'credits_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'92bf93bd74ad6c7a7a400015b40911d08e0fd033';
+String _$creditsHash() => r'f35fc25c2e599a75ec160968ff9cd0af2860e075';
 
-/// See also [router].
-@ProviderFor(router)
-final routerProvider = Provider<Raw<GoRouter>>.internal(
-  router,
-  name: r'routerProvider',
+/// See also [Credits].
+@ProviderFor(Credits)
+final creditsProvider =
+    AutoDisposeAsyncNotifierProvider<Credits, List<Credit>>.internal(
+  Credits.new,
+  name: r'creditsProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$creditsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RouterRef = ProviderRef<Raw<GoRouter>>;
+typedef _$Credits = AutoDisposeAsyncNotifier<List<Credit>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
