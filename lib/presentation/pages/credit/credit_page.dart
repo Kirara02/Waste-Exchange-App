@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:waste_exchange/domain/entities/credit.dart';
-import 'package:waste_exchange/presentation/extensions/double_extension.dart';
 import 'package:waste_exchange/presentation/misc/screen.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
 import 'package:waste_exchange/presentation/pages/credit/section/credit_item.dart';

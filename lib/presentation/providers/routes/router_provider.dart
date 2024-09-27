@@ -1,9 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:waste_exchange/domain/entities/e_wallet.dart';
 import 'package:waste_exchange/presentation/misc/app_routes.dart';
 import 'package:waste_exchange/presentation/pages/about/about_page.dart';
 import 'package:waste_exchange/presentation/pages/change_password/change_password_page.dart';
 import 'package:waste_exchange/presentation/pages/credit/credit_page.dart';
+import 'package:waste_exchange/presentation/pages/credit/e_wallet_transfer/e_wallet_transfer_page.dart';
 import 'package:waste_exchange/presentation/pages/data_plan/data_plan_page.dart';
 import 'package:waste_exchange/presentation/pages/e_wallet/e_wallet_page.dart';
 import 'package:waste_exchange/presentation/pages/edit_profile/edit_profile_page.dart';
@@ -87,6 +89,13 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "ewallet",
           builder: (context, state) {
             return const EWalletPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.EWALLETTRANSFER,
+          name: "ewallet-transfer",
+          builder: (context, state) {
+            return EWalletTransferPage(eWallet: state.extra as EWallet);
           },
         ),
         GoRoute(
