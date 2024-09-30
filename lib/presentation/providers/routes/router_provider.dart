@@ -9,9 +9,12 @@ import 'package:waste_exchange/presentation/pages/credit/e_wallet_transfer/e_wal
 import 'package:waste_exchange/presentation/pages/data_plan/data_plan_page.dart';
 import 'package:waste_exchange/presentation/pages/e_wallet/e_wallet_page.dart';
 import 'package:waste_exchange/presentation/pages/edit_profile/edit_profile_page.dart';
+import 'package:waste_exchange/presentation/pages/email_otp/email_otp_page.dart';
+import 'package:waste_exchange/presentation/pages/forgot_password/forgot_password_page.dart';
 import 'package:waste_exchange/presentation/pages/histories/histories_page.dart';
 import 'package:waste_exchange/presentation/pages/login/login_page.dart';
 import 'package:waste_exchange/presentation/pages/main/main_page.dart';
+import 'package:waste_exchange/presentation/pages/new_password/new_password_page.dart';
 import 'package:waste_exchange/presentation/pages/pairing/pairing_page.dart';
 import 'package:waste_exchange/presentation/pages/register/register_page.dart';
 import 'package:waste_exchange/presentation/pages/splash/splash_page.dart';
@@ -40,6 +43,27 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "register",
           builder: (context, state) {
             return const RegisterPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.FORGOT_PASSWORD,
+          name: "forgot-password",
+          builder: (context, state) {
+            return const ForgotPasswordPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.OTP,
+          name: "otp",
+          builder: (context, state) {
+            return const EmailOtpPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.NEW_PASSWORD,
+          name: "new-password",
+          builder: (context, state) {
+            return const NewPasswordPage();
           },
         ),
         GoRoute(

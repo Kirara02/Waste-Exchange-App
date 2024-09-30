@@ -9,20 +9,22 @@ import 'package:waste_exchange/presentation/providers/routes/router_provider.dar
 import 'package:waste_exchange/presentation/widgets/button/custom_button.dart';
 import 'package:waste_exchange/presentation/widgets/textfield/custom_text_field.dart';
 
-class ForgotPasswordPage extends ConsumerStatefulWidget {
-  const ForgotPasswordPage({super.key});
+class NewPasswordPage extends ConsumerStatefulWidget {
+  const NewPasswordPage({super.key});
 
   @override
-  ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NewPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
+class _NewPasswordPageState extends ConsumerState<NewPasswordPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController retypePasswordController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    passwordController.dispose();
+    retypePasswordController.dispose();
     super.dispose();
   }
 
@@ -49,12 +51,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Forgot Password",
+                    "Set a new password",
                     style: Typogaphy.SemiBold.copyWith(fontSize: 20),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    "Please enter your email to reset the password",
+                    "Create a new password. Ensure it differs from previous ones for security",
                     style: Typogaphy.SemiBold.copyWith(
                       fontSize: 16,
                       color: AppColors.primarySoft,
@@ -62,19 +64,36 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
-                    label: "Email",
-                    hintText: "youremail@email.com",
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
+                    label: "Password",
+                    hintText: "********",
+                    controller: passwordController,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 8) {
+                        return 'Password must be at least 8 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  CustomTextField(
+                    label: "Retype Password",
+                    hintText: "********",
+                    controller: retypePasswordController,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
+                        return 'Please enter your retype password';
                       }
-                      const emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                      final regExp = RegExp(emailPattern);
-                      if (!regExp.hasMatch(value)) {
-                        return 'Please enter a valid email address';
+                      if (value != passwordController.text) {
+                        return 'Passwords do not match';
                       }
                       return null;
                     },
@@ -83,9 +102,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   SizedBox(
                     width: AppScreens.width,
                     child: CustomButton(
-                      title: "Reset Password",
+                      title: "Update Password",
                       onPressed: () {
-                        ref.read(routerProvider).push(Routes.OTP);
+                        ref.read(routerProvider).go(Routes.LOGIN);
                         if (_formKey.currentState!.validate()) {}
                       },
                     ),

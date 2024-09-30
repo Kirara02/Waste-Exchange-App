@@ -7,6 +7,7 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   static const NEW_PASSWORD = _Paths.NEW_PASSWORD;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
+  static const OTP = _Paths.OTP;
   static const PROFILE = _Paths.PROFILE;
   static const UPDATE_POFILE = _Paths.UPDATE_POFILE;
   static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
@@ -29,6 +30,7 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const NEW_PASSWORD = '/new-password';
   static const FORGOT_PASSWORD = '/forgot-password';
+  static const OTP = '/otp';
   static const PROFILE = '/profile';
   static const UPDATE_POFILE = '/update-pofile';
   static const CHANGE_PASSWORD = '/change-password';
