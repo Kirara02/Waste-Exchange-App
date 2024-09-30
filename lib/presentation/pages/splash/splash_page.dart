@@ -27,6 +27,7 @@ class SplashPage extends ConsumerWidget {
     );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Text(
           "Uniguard",

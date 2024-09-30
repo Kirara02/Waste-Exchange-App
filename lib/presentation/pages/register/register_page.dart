@@ -29,7 +29,7 @@ class _SigninPageState extends ConsumerState<RegisterPage> {
   void dispose() {
     super.dispose();
     nameController.dispose();
-    passwordController.dispose();
+    phoneController.dispose();
     emailController.dispose();
     passwordController.dispose();
     retypePasswordController.dispose();

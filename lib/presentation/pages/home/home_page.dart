@@ -279,13 +279,13 @@ class FeatureItem extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: SizedBox(
-        width: 52,
+        width: 56,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SvgPicture.asset(
               iconPath,
-              width: 32,
+              width: 30,
             ),
             Text(
               title,
