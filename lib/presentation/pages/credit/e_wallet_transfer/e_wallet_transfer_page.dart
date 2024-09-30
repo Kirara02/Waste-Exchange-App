@@ -1,54 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:contacts_service/contacts_service.dart';
+import 'package:permission_handler/permission_handler.dart'; // Import permission_handler
 import 'package:waste_exchange/domain/entities/e_wallet.dart';
 import 'package:waste_exchange/presentation/extensions/double_extension.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
+import 'package:waste_exchange/presentation/pages/contacts/contacts_page.dart';
 import 'package:waste_exchange/presentation/widgets/button/custom_button.dart';
 import 'package:waste_exchange/presentation/widgets/common/custom_app_bar.dart';
 
-class EWalletTransferPage extends ConsumerWidget {
+class EWalletTransferPage extends ConsumerStatefulWidget {
   final EWallet eWallet;
   const EWalletTransferPage({super.key, required this.eWallet});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController phoneController = TextEditingController();
-    final TextEditingController amountController = TextEditingController();
+  ConsumerState<EWalletTransferPage> createState() => _EWalletTransferPageState();
+}
 
-    // Daftar rekomendasi jumlah transfer
-    final List<double> recommendedAmounts = [10000, 25000, 50000, 100000];
+class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
 
+  // Daftar rekomendasi jumlah transfer
+  final List<double> recommendedAmounts = [10000, 25000, 50000, 100000];
+
+  Future<void> _selectContact() async {
+    // Request permission to read contacts
+    PermissionStatus permissionStatus = await Permission.contacts.request();
+
+    if (permissionStatus.isGranted) {
+      final Contact? contact = await Navigator.of(context).push<Contact>(
+        MaterialPageRoute(builder: (context) => const ContactsPage()),
+      );
+
+      if (contact != null && contact.phones!.isNotEmpty) {
+        // Filter out non-numeric characters from the phone number
+        String? rawPhoneNumber = contact.phones!.first.value;
+        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9]'), '') ?? '';
+        phoneController.text = cleanedPhoneNumber;
+      }
+    } else {
+      // Handle permission denial
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Permission to access contacts is denied.')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: eWallet.name),
+      appBar: CustomAppBar(title: widget.eWallet.name),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Input Nomor Telepon
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: TextField(
-                controller: phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Nomor Telepon',
-                  hintText: 'Masukkan nomor telepon penerima',
-                  border: InputBorder.none, // Remove border from the TextField
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: TextField(
+                      controller: phoneController,
+                      decoration: const InputDecoration(
+                        labelText: 'Nomor Telepon',
+                        hintText: 'Masukkan nomor telepon penerima',
+                        border: InputBorder.none,
+                      ),
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
                 ),
-                keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.next,
-              ),
+                IconButton(
+                  icon: const Icon(Icons.contacts),
+                  onPressed: _selectContact, // Navigate to contact selection page
+                ),
+              ],
             ),
             const SizedBox(height: 16),
 
             // Input Jumlah Transfer
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(12),
@@ -59,7 +100,7 @@ class EWalletTransferPage extends ConsumerWidget {
                 decoration: const InputDecoration(
                   labelText: 'Jumlah Transfer',
                   hintText: 'Masukkan jumlah transfer',
-                  border: InputBorder.none, // Remove border from the TextField
+                  border: InputBorder.none,
                 ),
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
@@ -87,18 +128,18 @@ class EWalletTransferPage extends ConsumerWidget {
                 final amount = recommendedAmounts[index];
                 return GestureDetector(
                   onTap: () {
-                    amountController.text = amount.toStringAsFixed(0).toString();
+                    amountController.text = amount.toStringAsFixed(0);
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      border: Border.all(color: Colors.blue.shade200), // Border untuk item
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey.shade300),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Center(
                       child: Text(
                         amount.toIDRCurrencyFormat(),
-                        style: Typogaphy.Regular.copyWith(fontSize: 14), // Ukuran font sedikit lebih besar
+                        style: Typogaphy.Regular.copyWith(fontSize: 12),
                       ),
                     ),
                   ),
