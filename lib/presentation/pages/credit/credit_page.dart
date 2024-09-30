@@ -38,7 +38,13 @@ class _CreditPageState extends ConsumerState<CreditPage> {
       if (contact != null && contact.phones!.isNotEmpty) {
         // Filter out non-numeric characters from the phone number
         String? rawPhoneNumber = contact.phones!.first.value;
-        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9]'), '') ?? '';
+        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9+]'), '') ?? '';
+
+        // Replace +62 with 0 if the phone number starts with +62
+        if (cleanedPhoneNumber.startsWith('+62')) {
+          cleanedPhoneNumber = cleanedPhoneNumber.replaceFirst('+62', '0');
+        }
+
         _phoneController.text = cleanedPhoneNumber;
       }
     } else {

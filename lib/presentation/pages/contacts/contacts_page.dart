@@ -12,6 +12,7 @@ class _ContactsPageState extends State<ContactsPage> {
   List<Contact> _contacts = [];
   List<Contact> _filteredContacts = [];
   String _searchQuery = '';
+  bool _isLoading = true; // Variable to track loading state
 
   @override
   void initState() {
@@ -20,12 +21,17 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 
   Future<void> _fetchContacts() async {
+    setState(() {
+      _isLoading = true; // Start loading
+    });
+
     Iterable<Contact> contacts = await ContactsService.getContacts();
     if (mounted) {
       setState(() {
         // Filter contacts to include only those with at least one phone number
         _contacts = contacts.where((contact) => contact.phones?.isNotEmpty == true).toList();
         _filteredContacts = _contacts;
+        _isLoading = false; // Stop loading
       });
     }
   }
@@ -64,30 +70,32 @@ class _ContactsPageState extends State<ContactsPage> {
           ),
         ),
       ),
-      body: _filteredContacts.isEmpty
-          ? const Center(child: Text('Tidak ada kontak ditemukan.'))
-          : ListView.builder(
-              padding: const EdgeInsets.all(8.0), // Add padding to the list
-              itemCount: _filteredContacts.length,
-              itemBuilder: (context, index) {
-                final contact = _filteredContacts[index];
-                return Card(
-                  elevation: 2, // Add elevation for shadow effect
-                  margin: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ListTile(
-                    title: Text(
-                      contact.displayName ?? 'No Name',
-                      style: const TextStyle(fontWeight: FontWeight.bold), // Bold contact name
-                    ),
-                    subtitle: Text(contact.phones!.isNotEmpty ? contact.phones!.first.value! : 'No Phone Number'),
-                    onTap: () {
-                      // Return selected contact to the previous page
-                      Navigator.of(context).pop(contact);
-                    },
-                  ),
-                );
-              },
-            ),
+      body: _isLoading // Show loading indicator while data is being fetched
+          ? const Center(child: CircularProgressIndicator())
+          : _filteredContacts.isEmpty
+              ? const Center(child: Text('Tidak ada kontak ditemukan.'))
+              : ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: _filteredContacts.length,
+                  itemBuilder: (context, index) {
+                    final contact = _filteredContacts[index];
+                    return Card(
+                      elevation: 2,
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ListTile(
+                        title: Text(
+                          contact.displayName ?? 'No Name',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(contact.phones!.isNotEmpty ? contact.phones!.first.value! : 'No Phone Number'),
+                        onTap: () {
+                          // Return selected contact to the previous page
+                          Navigator.of(context).pop(contact);
+                        },
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }

@@ -18,7 +18,7 @@ class EWalletTransferPage extends ConsumerStatefulWidget {
 }
 
 class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
-  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 
   // Daftar rekomendasi jumlah transfer
@@ -36,8 +36,14 @@ class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
       if (contact != null && contact.phones!.isNotEmpty) {
         // Filter out non-numeric characters from the phone number
         String? rawPhoneNumber = contact.phones!.first.value;
-        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9]'), '') ?? '';
-        phoneController.text = cleanedPhoneNumber;
+        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9+]'), '') ?? '';
+
+        // Replace +62 with 0 if the phone number starts with +62
+        if (cleanedPhoneNumber.startsWith('+62')) {
+          cleanedPhoneNumber = cleanedPhoneNumber.replaceFirst('+62', '0');
+        }
+
+        _phoneController.text = cleanedPhoneNumber;
       }
     } else {
       // Handle permission denial
@@ -68,7 +74,7 @@ class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
                       border: Border.all(color: Colors.grey.shade300),
                     ),
                     child: TextField(
-                      controller: phoneController,
+                      controller: _phoneController,
                       decoration: const InputDecoration(
                         labelText: 'Nomor Telepon',
                         hintText: 'Masukkan nomor telepon penerima',
@@ -156,8 +162,8 @@ class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
           title: "Proses",
           onPressed: () {
             // Logika untuk transfer e-wallet
-            if (phoneController.text.isNotEmpty && amountController.text.isNotEmpty) {
-              print('Transfer ke ${phoneController.text} sejumlah ${amountController.text}');
+            if (_phoneController.text.isNotEmpty && amountController.text.isNotEmpty) {
+              print('Transfer ke ${_phoneController.text} sejumlah ${amountController.text}');
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Harap lengkapi semua field.')),
