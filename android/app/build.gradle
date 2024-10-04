@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
 
-        setProperty("archivesBaseName", "waste-exchange")
+		setProperty("archivesBaseName", "waste-exchange")
 
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.uniguard.waste_exchange"

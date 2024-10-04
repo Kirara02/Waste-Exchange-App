@@ -11,7 +11,6 @@ class ContactsPage extends StatefulWidget {
 class _ContactsPageState extends State<ContactsPage> {
   List<Contact> _contacts = [];
   List<Contact> _filteredContacts = [];
-  String _searchQuery = '';
   bool _isLoading = true; // Variable to track loading state
 
   @override
@@ -38,7 +37,6 @@ class _ContactsPageState extends State<ContactsPage> {
 
   void _filterContacts(String query) {
     setState(() {
-      _searchQuery = query;
       _filteredContacts = _contacts.where((contact) {
         return contact.displayName?.toLowerCase().contains(query.toLowerCase()) ?? false;
       }).toList();

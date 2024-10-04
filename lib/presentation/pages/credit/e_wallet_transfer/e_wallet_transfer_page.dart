@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart'; // Import permission_handler
 import 'package:waste_exchange/domain/entities/e_wallet.dart';
+import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/extensions/double_extension.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
+import 'package:waste_exchange/presentation/misc/utils.dart';
 import 'package:waste_exchange/presentation/pages/contacts/contacts_page.dart';
 import 'package:waste_exchange/presentation/widgets/button/custom_button.dart';
 import 'package:waste_exchange/presentation/widgets/common/custom_app_bar.dart';
@@ -29,27 +31,28 @@ class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
     PermissionStatus permissionStatus = await Permission.contacts.request();
 
     if (permissionStatus.isGranted) {
-      final Contact? contact = await Navigator.of(context).push<Contact>(
-        MaterialPageRoute(builder: (context) => const ContactsPage()),
-      );
+      if (mounted) {
+        final Contact? contact = await Navigator.of(context).push<Contact>(
+          MaterialPageRoute(builder: (context) => const ContactsPage()),
+        );
 
-      if (contact != null && contact.phones!.isNotEmpty) {
-        // Filter out non-numeric characters from the phone number
-        String? rawPhoneNumber = contact.phones!.first.value;
-        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9+]'), '') ?? '';
+        if (contact != null && contact.phones!.isNotEmpty) {
+          // Filter out non-numeric characters from the phone number
+          String? rawPhoneNumber = contact.phones!.first.value;
+          String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9+]'), '') ?? '';
 
-        // Replace +62 with 0 if the phone number starts with +62
-        if (cleanedPhoneNumber.startsWith('+62')) {
-          cleanedPhoneNumber = cleanedPhoneNumber.replaceFirst('+62', '0');
+          // Replace +62 with 0 if the phone number starts with +62
+          if (cleanedPhoneNumber.startsWith('+62')) {
+            cleanedPhoneNumber = cleanedPhoneNumber.replaceFirst('+62', '0');
+          }
+
+          _phoneController.text = cleanedPhoneNumber;
         }
-
-        _phoneController.text = cleanedPhoneNumber;
       }
     } else {
-      // Handle permission denial
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Permission to access contacts is denied.')),
-      );
+      if (mounted) {
+        context.showSnackBar("Permission to access contacts is denied.");
+      }
     }
   }
 
@@ -163,11 +166,9 @@ class _EWalletTransferPageState extends ConsumerState<EWalletTransferPage> {
           onPressed: () {
             // Logika untuk transfer e-wallet
             if (_phoneController.text.isNotEmpty && amountController.text.isNotEmpty) {
-              print('Transfer ke ${_phoneController.text} sejumlah ${amountController.text}');
+              printIfDebug('Transfer ke ${_phoneController.text} sejumlah ${amountController.text}');
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Harap lengkapi semua field.')),
-              );
+              context.showSnackBar("Harap lengkapi semua field.");
             }
           },
         ),

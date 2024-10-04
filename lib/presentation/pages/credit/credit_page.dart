@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/misc/screen.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
 import 'package:waste_exchange/presentation/pages/contacts/contacts_page.dart';
@@ -31,27 +32,28 @@ class _CreditPageState extends ConsumerState<CreditPage> {
     PermissionStatus permissionStatus = await Permission.contacts.request();
 
     if (permissionStatus.isGranted) {
-      final Contact? contact = await Navigator.of(context).push<Contact>(
-        MaterialPageRoute(builder: (context) => const ContactsPage()),
-      );
+      if (mounted) {
+        final Contact? contact = await Navigator.of(context).push<Contact>(
+          MaterialPageRoute(builder: (context) => const ContactsPage()),
+        );
 
-      if (contact != null && contact.phones!.isNotEmpty) {
-        // Filter out non-numeric characters from the phone number
-        String? rawPhoneNumber = contact.phones!.first.value;
-        String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9+]'), '') ?? '';
+        if (contact != null && contact.phones!.isNotEmpty) {
+          // Filter out non-numeric characters from the phone number
+          String? rawPhoneNumber = contact.phones!.first.value;
+          String cleanedPhoneNumber = rawPhoneNumber?.replaceAll(RegExp(r'[^0-9+]'), '') ?? '';
 
-        // Replace +62 with 0 if the phone number starts with +62
-        if (cleanedPhoneNumber.startsWith('+62')) {
-          cleanedPhoneNumber = cleanedPhoneNumber.replaceFirst('+62', '0');
+          // Replace +62 with 0 if the phone number starts with +62
+          if (cleanedPhoneNumber.startsWith('+62')) {
+            cleanedPhoneNumber = cleanedPhoneNumber.replaceFirst('+62', '0');
+          }
+
+          _phoneController.text = cleanedPhoneNumber;
         }
-
-        _phoneController.text = cleanedPhoneNumber;
       }
     } else {
-      // Handle permission denial
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Permission to access contacts is denied.')),
-      );
+      if (mounted) {
+        context.showSnackBar("Permission to access contacts is denied.");
+      }
     }
   }
 
@@ -114,7 +116,7 @@ class _CreditPageState extends ConsumerState<CreditPage> {
                   ),
                 ),
               ),
-              IconButton(onPressed: _selectContact, icon: Icon(Icons.contacts))
+              IconButton(onPressed: _selectContact, icon: const Icon(Icons.contacts))
             ],
           ),
           const SizedBox(height: 16),
