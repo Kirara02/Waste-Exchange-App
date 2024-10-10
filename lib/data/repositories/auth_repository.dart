@@ -10,7 +10,9 @@ abstract interface class AuthRepository {
   Future<Result<User>> register({
     required String name,
     required String email,
+    required String phone,
     required String password,
+    required String password_confirmation
   });
 
   Future<Result<void>> logout();

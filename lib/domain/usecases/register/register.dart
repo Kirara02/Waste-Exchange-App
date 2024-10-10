@@ -13,7 +13,12 @@ class Register implements UseCase<Result<User>, RegisterParams> {
 
   @override
   Future<Result<User>> call(RegisterParams params) async {
-    var results = await _authRepository.register(name: params.name, email: params.email, password: params.password);
+    var results = await _authRepository.register(
+        name: params.name,
+        phone: params.phone,
+        email: params.email,
+        password: params.password,
+        password_confirmation: params.passwordConfirmation);
 
     return switch (results) {
       Success(value: final result) => Result.success(result),

@@ -23,6 +23,7 @@ mixin _$User {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  @JsonKey(name: "phone_number")
   String get phone => throw _privateConstructorUsedError;
   String? get profileUrl => throw _privateConstructorUsedError;
 
@@ -37,7 +38,11 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {int id, String name, String email, String phone, String? profileUrl});
+      {int id,
+      String name,
+      String email,
+      @JsonKey(name: "phone_number") String phone,
+      String? profileUrl});
 }
 
 /// @nodoc
@@ -92,7 +97,11 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id, String name, String email, String phone, String? profileUrl});
+      {int id,
+      String name,
+      String email,
+      @JsonKey(name: "phone_number") String phone,
+      String? profileUrl});
 }
 
 /// @nodoc
@@ -143,7 +152,7 @@ class _$UserImpl implements _User {
       {required this.id,
       required this.name,
       required this.email,
-      required this.phone,
+      @JsonKey(name: "phone_number") required this.phone,
       this.profileUrl});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -156,6 +165,7 @@ class _$UserImpl implements _User {
   @override
   final String email;
   @override
+  @JsonKey(name: "phone_number")
   final String phone;
   @override
   final String? profileUrl;
@@ -202,7 +212,7 @@ abstract class _User implements User {
       {required final int id,
       required final String name,
       required final String email,
-      required final String phone,
+      @JsonKey(name: "phone_number") required final String phone,
       final String? profileUrl}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -214,6 +224,7 @@ abstract class _User implements User {
   @override
   String get email;
   @override
+  @JsonKey(name: "phone_number")
   String get phone;
   @override
   String? get profileUrl;

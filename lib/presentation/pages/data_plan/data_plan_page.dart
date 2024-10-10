@@ -23,7 +23,7 @@ class _DataPlanPageState extends ConsumerState<DataPlanPage> {
 
   @override
   void dispose() {
-    _phoneController.dispose(); // Membersihkan controller saat widget dispose
+    _phoneController.dispose(); 
     super.dispose();
   }
 
@@ -135,7 +135,6 @@ class _DataPlanPageState extends ConsumerState<DataPlanPage> {
           else
             dataPlans.when(
               data: (dataPlanList) {
-                // Menampilkan paket data jika data berhasil diambil
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

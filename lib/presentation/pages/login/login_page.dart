@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/misc/app_routes.dart';
 import 'package:waste_exchange/presentation/misc/colors.dart';
+import 'package:waste_exchange/presentation/misc/dismiss_keyboard.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
 import 'package:waste_exchange/presentation/providers/routes/router_provider.dart';
 import 'package:waste_exchange/presentation/providers/user_data/user_data_provider.dart';
@@ -141,6 +142,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             width: MediaQuery.of(context).size.width,
                             child: CustomButton(
                               onPressed: () async {
+                                hideKeyboard(context);
                                 if (_formKey.currentState!.validate()) {
                                   ref.read(userDataProvider.notifier).login(
                                         email: emailController.text,

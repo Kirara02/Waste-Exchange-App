@@ -9,7 +9,7 @@ class User with _$User {
     required int id,
     required String name,
     required String email,
-    required String phone,
+    @JsonKey(name: "phone_number") required String phone,
     String? profileUrl,
   }) = _User;
 

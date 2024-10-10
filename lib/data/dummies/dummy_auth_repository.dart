@@ -30,7 +30,9 @@ class DummyAuthRepository implements AuthRepository {
   Future<Result<User>> register({
     required String name,
     required String email,
+    required String phone,
     required String password,
+    required String password_confirmation,
   }) async {
     await Future.delayed(const Duration(seconds: 1));
 

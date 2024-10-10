@@ -18,6 +18,7 @@ abstract class Routes {
   static const DATAPLAN = _Paths.DATAPLAN;
   static const EWALLET = _Paths.EWALLET;
   static const EWALLETTRANSFER = _Paths.EWALLETTRANSFER;
+  static const WSDEMO = _Paths.WSDEMO;
 }
 
 abstract class _Paths {
@@ -41,4 +42,5 @@ abstract class _Paths {
   static const DATAPLAN = '/dataplan';
   static const EWALLET = '/ewallet';
   static const EWALLETTRANSFER = '/ewallet-transfer';
+  static const WSDEMO = '/ws-demo';
 }

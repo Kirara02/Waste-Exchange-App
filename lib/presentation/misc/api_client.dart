@@ -48,8 +48,8 @@ class ApiClient {
 
   // Fungsi POST
   Future<Response> post(
-    String endpoint,
-    dynamic data, {
+    String endpoint, {
+    dynamic data,
     bool authorization = false,
     String? token,
     Map<String, dynamic>? queryParams,
@@ -66,8 +66,8 @@ class ApiClient {
 
   // Fungsi PUT
   Future<Response> put(
-    String endpoint,
-    dynamic data, {
+    String endpoint, {
+    dynamic data,
     bool authorization = false,
     String? token,
     Map<String, dynamic>? queryParams,
@@ -101,8 +101,8 @@ class ApiClient {
 
   // Fungsi PATCH
   Future<Response> patch(
-    String endpoint,
-    dynamic data, {
+    String endpoint, {
+    dynamic data,
     bool authorization = false,
     String? token,
     Map<String, dynamic>? queryParams,
@@ -129,6 +129,7 @@ class ApiClient {
   void _setAuthorization(String? token) {
     if (token != null && token.isNotEmpty) {
       log("Authorization");
+
       _dio.options.headers['Authorization'] = 'Bearer $token';
     }
   }

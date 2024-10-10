@@ -18,6 +18,7 @@ import 'package:waste_exchange/presentation/pages/new_password/new_password_page
 import 'package:waste_exchange/presentation/pages/pairing/pairing_page.dart';
 import 'package:waste_exchange/presentation/pages/register/register_page.dart';
 import 'package:waste_exchange/presentation/pages/splash/splash_page.dart';
+import 'package:waste_exchange/presentation/pages/ws/ws_page.dart';
 
 part 'router_provider.g.dart';
 
@@ -134,6 +135,13 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           name: "dataplan",
           builder: (context, state) {
             return const DataPlanPage();
+          },
+        ),
+        GoRoute(
+          path: Routes.WSDEMO,
+          name: "ws-demo",
+          builder: (context, state) {
+            return const WsPage();
           },
         ),
       ],

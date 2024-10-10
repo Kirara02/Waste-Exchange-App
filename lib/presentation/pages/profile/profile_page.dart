@@ -104,8 +104,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ProfileItem(
                           title: "About",
                           iconPath: "assets/icons/about.svg",
-                          showBorder: false,
                           onPressed: () => ref.read(routerProvider).push(Routes.ABOUT),
+                        ),
+                        ProfileItem(
+                          title: "Websocket Demo",
+                          iconPath: "assets/icons/filter.svg",
+                          showBorder: false,
+                          onPressed: () => ref.read(routerProvider).push(Routes.WSDEMO),
                         ),
                       ],
                     ),

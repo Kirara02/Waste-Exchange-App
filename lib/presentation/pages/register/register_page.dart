@@ -201,8 +201,10 @@ class _SigninPageState extends ConsumerState<RegisterPage> {
                                         ref.read(userDataProvider.notifier).register(
                                             params: RegisterParams(
                                                 name: nameController.text,
+                                                phone: phoneController.text,
                                                 email: emailController.text,
-                                                password: passwordController.text));
+                                                password: passwordController.text,
+                                                passwordConfirmation: passwordController.text));
                                       }
                                     }
                                   : null, // Disable button if checkbox not checked
