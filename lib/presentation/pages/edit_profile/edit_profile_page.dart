@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:waste_exchange/domain/usecases/edit_profile/edit_profile_params.dart';
 import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/providers/user_data/user_data_provider.dart';
 import 'package:waste_exchange/presentation/widgets/common/custom_app_bar.dart';
@@ -19,14 +20,12 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
-  bool _isEditMode = false; // Flag to track edit mode
+  bool _isEditMode = false;
 
-  // Controllers for the form fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
-  // Function to pick image from gallery
   Future<void> _pickImage() async {
     final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -54,6 +53,29 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      userDataProvider,
+      (previous, next) {
+        if (next is AsyncData && next.value != null) {
+          context.showSnackBar("Profile updated successfully!");
+
+          setState(() {
+            _isEditMode = false;
+            _profileImage = null;
+          });
+
+          final updatedUser = next.value;
+          if (updatedUser != null) {
+            _nameController.text = updatedUser.name;
+            _emailController.text = updatedUser.email;
+            _phoneController.text = updatedUser.phone;
+          }
+        } else if (next is AsyncError) {
+          context.showSnackBar("Failed to update profile: ${next.error}");
+        }
+      },
+    );
+
     return Scaffold(
       appBar: CustomAppBar(
         title: "Update Profile",
@@ -64,7 +86,22 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             onPressed: () {
               if (_isEditMode) {
                 if (_formKey.currentState!.validate()) {
-                  context.showSnackBar("Profile updated successfully!");
+                  final currentUser = ref.read(userDataProvider).valueOrNull;
+
+                  if (currentUser != null &&
+                      (currentUser.name != _nameController.text ||
+                          currentUser.phone != _phoneController.text ||
+                          currentUser.email != _emailController.text)) {
+                    ref.read(userDataProvider.notifier).editProfile(
+                          params: EditProfileParams(
+                            name: _nameController.text,
+                            phone: _phoneController.text,
+                            email: _emailController.text,
+                          ),
+                        );
+                  } else {
+                    context.showSnackBar("No changes to save.");
+                  }
                 }
               }
 

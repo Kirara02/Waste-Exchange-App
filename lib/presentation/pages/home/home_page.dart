@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:waste_exchange/presentation/extensions/double_extension.dart';
 import 'package:waste_exchange/presentation/misc/app_routes.dart';
 import 'package:waste_exchange/presentation/misc/colors.dart';
 import 'package:waste_exchange/presentation/misc/screen.dart';
 import 'package:waste_exchange/presentation/misc/typography.dart';
+import 'package:waste_exchange/presentation/providers/api/user_balance_provider.dart';
 import 'package:waste_exchange/presentation/providers/history/histories_provider.dart';
 import 'package:waste_exchange/presentation/providers/routes/router_provider.dart';
 import 'package:waste_exchange/presentation/providers/user_data/user_data_provider.dart';
@@ -19,6 +21,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final historiesAsync = ref.watch(historiesProvider);
+    final walletAsync = ref.watch(userBalanceProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -49,7 +52,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        "Hello,\n${ref.read(userDataProvider).valueOrNull?.name}",
+                        "Hallo,\n${ref.read(userDataProvider).valueOrNull?.name}",
                         style: Typogaphy.SemiBold.copyWith(color: Colors.white),
                       )
                     ],
@@ -100,7 +103,7 @@ class HomePage extends ConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Rp 50.000",
+                                    walletAsync.valueOrNull?.balance.toIDRCurrencyFormat() ?? "Rp 1000",
                                     style: Typogaphy.SemiBold.copyWith(
                                       fontSize: 32,
                                       color: Colors.white,

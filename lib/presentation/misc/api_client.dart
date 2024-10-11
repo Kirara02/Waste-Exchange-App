@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+// import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiClient {
   late Dio _dio;
@@ -25,6 +26,8 @@ class ApiClient {
     if (defaultToken?.isNotEmpty ?? false) {
       _dio.options.headers['Authorization'] = "Bearer $defaultToken";
     }
+
+    // _dio.interceptors.add(PrettyDioLogger());
   }
 
   Dio get dio => _dio;

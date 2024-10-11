@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:waste_exchange/domain/entities/result.dart';
 import 'package:waste_exchange/domain/entities/user.dart';
+import 'package:waste_exchange/domain/usecases/edit_profile/edit_profile.dart';
+import 'package:waste_exchange/domain/usecases/edit_profile/edit_profile_params.dart';
 import 'package:waste_exchange/domain/usecases/get_logged_in_user/get_logged_in_user.dart';
 import 'package:waste_exchange/domain/usecases/login/login.dart';
 import 'package:waste_exchange/domain/usecases/login/login_params.dart';
 import 'package:waste_exchange/domain/usecases/logout/logout.dart';
 import 'package:waste_exchange/domain/usecases/register/register.dart';
 import 'package:waste_exchange/domain/usecases/register/register_params.dart';
+import 'package:waste_exchange/presentation/providers/api/user_balance_provider.dart';
 import 'package:waste_exchange/presentation/providers/history/histories_provider.dart';
+import 'package:waste_exchange/presentation/providers/usecases/edit_profile_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/get_presence_detail_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/login_provider.dart';
 import 'package:waste_exchange/presentation/providers/usecases/logout_provider.dart';
@@ -26,7 +30,7 @@ class UserData extends _$UserData {
 
     switch (userResult) {
       case Success(value: final user):
-        _getHistory();
+        _initialize();
         return user;
       case Failed(message: _):
         return null;
@@ -43,7 +47,7 @@ class UserData extends _$UserData {
     switch (result) {
       case Success(value: final user):
         state = AsyncData(user);
-        _getHistory();
+        _initialize();
       case Failed(:final message):
         state = AsyncError(FlutterError(message), StackTrace.current);
         state = const AsyncData(null);
@@ -56,6 +60,23 @@ class UserData extends _$UserData {
     Register register = ref.read(registerProvider);
 
     var result = await register(params);
+
+    switch (result) {
+      case Success(value: final user):
+        state = AsyncData(user);
+        _initialize();
+      case Failed(:final message):
+        state = AsyncError(FlutterError(message), StackTrace.current);
+        state = const AsyncData(null);
+    }
+  }
+
+  Future<void> editProfile({required EditProfileParams params}) async {
+    state = const AsyncLoading();
+
+    EditProfile editProfile = ref.read(editProfileProvider);
+
+    var result = await editProfile(params);
 
     switch (result) {
       case Success(value: final user):
@@ -79,7 +100,8 @@ class UserData extends _$UserData {
     }
   }
 
-  void _getHistory() {
+  void _initialize() {
     ref.read(historiesProvider.notifier).getHistories();
+    ref.read(userBalanceProvider.notifier).getBalance();
   }
 }

@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_data_provider.dart';
+part of 'get_balance_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userDataHash() => r'0b319ee812117d0e6b82d3a0b45f1f4ddbb58dec';
+String _$getBalanceHash() => r'e483a46ca8aa1b404c1a44590413469886eb4a22';
 
-/// See also [UserData].
-@ProviderFor(UserData)
-final userDataProvider = AsyncNotifierProvider<UserData, User?>.internal(
-  UserData.new,
-  name: r'userDataProvider',
+/// See also [getBalance].
+@ProviderFor(getBalance)
+final getBalanceProvider = AutoDisposeProvider<GetBalance>.internal(
+  getBalance,
+  name: r'getBalanceProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$userDataHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getBalanceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UserData = AsyncNotifier<User?>;
+typedef GetBalanceRef = AutoDisposeProviderRef<GetBalance>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

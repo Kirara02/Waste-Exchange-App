@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:waste_exchange/domain/usecases/change_password/change_password_params.dart';
 import 'package:waste_exchange/presentation/extensions/build_context_extension.dart';
 import 'package:waste_exchange/presentation/misc/screen.dart';
+import 'package:waste_exchange/presentation/providers/api/user_change_password_provider.dart';
+import 'package:waste_exchange/presentation/providers/routes/router_provider.dart';
 import 'package:waste_exchange/presentation/widgets/button/custom_button.dart';
 import 'package:waste_exchange/presentation/widgets/common/custom_app_bar.dart';
 import 'package:waste_exchange/presentation/widgets/textfield/custom_text_field.dart';
@@ -30,6 +33,23 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      userChangePasswordProvider,
+      (previous, next) {
+        if (next is AsyncData && next.value != null) {
+          context.showSnackBar("Profile updated successfully!");
+
+          _oldPasswordController.clear();
+          _newPasswordController.clear();
+          _retypePasswordController.clear();
+
+          ref.read(routerProvider).pop();
+        } else if (next is AsyncError) {
+          context.showSnackBar("${next.error}");
+        }
+      },
+    );
+
     return Scaffold(
       appBar: const CustomAppBar(
         title: "Change Password",
@@ -108,8 +128,10 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                     title: "Confirm",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        context.showSnackBar("Password updated successfully!");
-                        // You can add the password update logic here
+                        ref.read(userChangePasswordProvider.notifier).changePassword(
+                            params: ChangePasswordParams(
+                                currentPassword: _oldPasswordController.text,
+                                newPassword: _newPasswordController.text));
                       }
                     },
                   ),

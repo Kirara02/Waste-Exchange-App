@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:waste_exchange/data/api/api_user_repository.dart';
 import 'package:waste_exchange/data/repositories/auth_repository.dart';
 import 'package:waste_exchange/domain/entities/result.dart';
 import 'package:waste_exchange/domain/entities/user.dart';
@@ -15,10 +16,9 @@ class ApiAuthRepository implements AuthRepository {
   @override
   Future<bool> getLoggedInUser() async {
     try {
-      final token = await TokenHelper().getToken();
+      final userResult = await ApiUserRepository().getUser();
 
-      final response = await _apiClient.get("/user", authorization: true, token: token);
-      if (response.statusCode == 200) {
+      if (userResult.isSuccess) {
         return true;
       } else {
         return false;
@@ -37,7 +37,6 @@ class ApiAuthRepository implements AuthRepository {
       );
       final result = User.fromJson(response.data['data']['user']);
       await TokenHelper().setToken(response.data['data']['token']);
-      await TokenHelper().setLoginStatus(true);
 
       return Result.success(result);
     } on DioException catch (e) {
@@ -50,7 +49,6 @@ class ApiAuthRepository implements AuthRepository {
     try {
       final token = await TokenHelper().getToken();
       final response = await _apiClient.post("/logout", authorization: true, token: token);
-      await TokenHelper().setLoginStatus(false);
       await TokenHelper().setToken(null);
       printIfDebug(response.data['message']);
       return const Result.success(null);
@@ -80,7 +78,6 @@ class ApiAuthRepository implements AuthRepository {
       );
       final result = User.fromJson(response.data['data']['user']);
       await TokenHelper().setToken(response.data['data']['token']);
-      await TokenHelper().setLoginStatus(true);
       return Result.success(result);
     } on DioException catch (e) {
       return Result.failed(e.response?.data['message']);
